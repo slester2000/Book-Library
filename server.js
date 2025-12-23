@@ -1,38 +1,62 @@
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const booksRouter = require('./routes/books');
-const rentalsRouter= require('./routes/rentals');
+const express = require("express");
+const path = require("path");
+const Database = require("better-sqlite3");
 
 const app = express();
 const PORT = 3000;
 
-// middleware
+/* -------------------- DATABASE -------------------- */
+
+// Open SQLite database (sync + stable)
+const dbPath = path.join(__dirname, "library.db");
+const db = new Database(dbPath);
+
+// Optional safety settings
+db.pragma("foreign_keys = ON");
+
+console.log("Connected to SQLite database at:", dbPath);
+
+/* -------------------- MIDDLEWARE -------------------- */
+
+// Parse JSON bodies
 app.use(express.json());
-app.use ((req,res,next)=>{
-    req.db =db;
-    next();
+
+// Attach DB to every request
+app.use((req, res, next) => {
+  req.db = db;
+  next();
 });
 
-// database connection
-const db = new sqlite3.Database('./library.db', (err) => {
-  if (err) {
-    console.error('Failed to connect to database:', err.message);
-  } else {
-    console.log('Connected to SQLite database');
-  }
+/* -------------------- ROUTES -------------------- */
+
+const booksRouter = require("./routes/books");
+const rentalsRouter = require("./routes/rentals");
+
+app.use("/books", booksRouter);
+app.use("/rentals", rentalsRouter);
+
+// Health check
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
 });
 
-// test route
-app.get('/', (req, res) => {
-  res.send('Library API is running');
+/* -------------------- ERROR HANDLING -------------------- */
+
+// Catch unexpected errors (keeps server alive)
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT EXCEPTION:", err);
 });
 
-app.use('/books', booksRouter);
-app.use('/rentals', rentalsRouter);
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED PROMISE REJECTION:", err);
+});
+
+/* -------------------- START SERVER -------------------- */
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
 
 
 

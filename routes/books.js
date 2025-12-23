@@ -1,16 +1,20 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-// GET /books
-router.get('/', (req, res) => {
-  const sql = 'SELECT * FROM books';
+/**
+ * GET /books
+ * Returns all books
+ */
+router.get("/", (req, res) => {
+  try {
+    const books = req.db
+      .prepare("SELECT id, title, total_copies, available_copies FROM books ORDER BY title")
+      .all();
 
-  req.db.all(sql, [], (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(rows);
-  });
+    res.json(books);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;
