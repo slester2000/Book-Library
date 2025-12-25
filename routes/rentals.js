@@ -13,6 +13,7 @@ router.get("/", (req, res) => {
           rentals.id AS rental_id,
           rentals.renter_name,
           rentals.checkout_date,
+          rentals.due_date,
           rentals.return_date,
           books.id AS book_id,
           books.title
@@ -40,6 +41,7 @@ router.get("/active", (req, res) => {
           rentals.id AS rental_id,
           rentals.renter_name,
           rentals.checkout_date,
+          date(rentals.due_date) AS due_date,
           books.id AS book_id,
           books.title
         FROM rentals
@@ -80,7 +82,7 @@ router.post("/checkout", (req, res) => {
 
       const result = req.db
         .prepare(`
-          INSERT INTO rentals (book_id, renter_name, checkout_date,due_date)
+          INSERT INTO rentals (book_id, renter_name, checkout_date, due_date)
           VALUES (?, ?, datetime('now'),datetime('now', '+14 days'))
         `)
         .run(bookId, renter);

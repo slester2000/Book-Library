@@ -27,6 +27,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(express.static("public"));
 /* -------------------- ROUTES -------------------- */
 
 const booksRouter = require("./routes/books");

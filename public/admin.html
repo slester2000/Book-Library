@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Library Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen" class="admin-login">
+    <h1>🔐 Admin Access</h1>
+    <input id="admin-password" type="password" placeholder="Password" />
+    <button id="login-btn">Login</button>
+    <p id="login-error" class="error hidden">Incorrect password</p>
+  </div>
+
+
+  <!-- ADMIN DASHBOARD (PAGE, NOT MODAL) -->
+  <div id="admin-dashboard" class="admin-dashboard hidden">
+    <header class="admin-header">
+      <h1>📚 Library Admin Dashboard</h1>
+
+      <!--Menu button-->
+      <div class="menu-container">
+        <button class="menu-btn" aria-label="Open menu" onclick="toggleMenu()">
+            <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+                d="M3 6h18M3 12h18M3 18h18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+            />
+            </svg>
+        </button>
+
+        <div id="dropdown-menu" class="dropdown hidden">
+            <button onclick="goTo('index.html')">📚 Catalog</button>
+            <button onclick="goTo('admin.html')">🔐 Admin</button>
+            <button onclick="goTo('books-admin.html')">Manage Books</button>
+            <button onclick="logout()">🚪 Logout</button>
+        </div>
+        </div>
+
+      <p>Active Rentals Overview</p>
+    </header>
+
+    <table class="admin-tabel">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Renter</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="rentals-table"></tbody>
+    </table>
+  </div>
+
+  <!-- BOOK MODAL -->
+  <div id="book-modal" class="book-modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Add Book</h2>
+
+      <input id="book-title" placeholder="Title *" />
+      <input id="book-author" placeholder="Author (optional)" />
+      <input id="book-isbn" placeholder="ISBN (optional)" />
+      <input id="book-total" type="number" placeholder="Total copies *" />
+
+      <label>
+        <input type="checkbox" id="book-active" checked />
+        Active
+      </label>
+
+      <div class="modal-actions">
+        <button onclick="saveBook()">Save</button>
+        <button onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
