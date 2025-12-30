@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Library</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="manage-book-dash" id="manage-book-dash">
+        <header class="manage-book-header">
+            <h1> ✏ Manage book Library</h1>
+        </header>
+
+
+        <!--Menu button-->
+      <div class="menu-container">
+        <button class="menu-btn" aria-label="Open menu" onclick="toggleMenu()">
+            <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+                d="M3 6h18M3 12h18M3 18h18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+            />
+            </svg>
+        </button>
+
+        <div id="dropdown-menu" class="dropdown hidden">
+            <button onclick="goTo('index.html')">📚 Catalog</button>
+            <button onclick="goTo('admin.html')">🔐 Admin</button>
+            <button onclick="goTo('books-admin.html')">Manage Books</button>
+            <button onclick="logout()">🚪 Logout</button>
+        </div>
+        </div>
+
+        <label>
+        <input type="checkbox" onchange="toggleInactiveBooks(this.checked)">
+        Show inactive books
+        </label>
+
+        <!--render all books table -->
+        <table class="manage-books-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Copies</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="manage-books-table"></tbody>
+        </table>
+        <div class="add-book-container" id="add-book-container">
+            <button onclick="addBook()">
+                Add Book +
+            </button>
+        </div>
+
+        <!-- RETURN/EDIT BOOK MODAL -->
+      <div id="book-modal" class="book-modal">
+      <div class="modal-content">
+      <h2 id="modal-title">Add Book</h2>
+
+      <input id="book-title" placeholder="Title *" />
+      <input id="book-author" placeholder="Author (optional)" />
+      <input id="book-isbn" placeholder="ISBN (optional)" />
+      <input id="book-total" type="number" placeholder="Total copies *" />
+
+      <label>
+        <input type="checkbox" id="book-active" checked />
+        Active
+      </label>
+
+      <div class="modal-actions">
+        <button onclick="saveBook()">Save</button>
+        <button onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+    </div>
+    <script src="manage-books.js"></script>
+</body>
+</html>

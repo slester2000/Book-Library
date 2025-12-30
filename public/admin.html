@@ -39,7 +39,7 @@
         <div id="dropdown-menu" class="dropdown hidden">
             <button onclick="goTo('index.html')">📚 Catalog</button>
             <button onclick="goTo('admin.html')">🔐 Admin</button>
-            <button onclick="goTo('books-admin.html')">Manage Books</button>
+            <button onclick="goTo('manage-books.html')">Manage Books</button>
             <button onclick="logout()">🚪 Logout</button>
         </div>
         </div>
@@ -58,28 +58,6 @@
         </thead>
         <tbody id="rentals-table"></tbody>
     </table>
-  </div>
-
-  <!-- BOOK MODAL -->
-  <div id="book-modal" class="book-modal">
-    <div class="modal-content">
-      <h2 id="modal-title">Add Book</h2>
-
-      <input id="book-title" placeholder="Title *" />
-      <input id="book-author" placeholder="Author (optional)" />
-      <input id="book-isbn" placeholder="ISBN (optional)" />
-      <input id="book-total" type="number" placeholder="Total copies *" />
-
-      <label>
-        <input type="checkbox" id="book-active" checked />
-        Active
-      </label>
-
-      <div class="modal-actions">
-        <button onclick="saveBook()">Save</button>
-        <button onclick="closeModal()">Cancel</button>
-      </div>
-    </div>
   </div>
 
   <script src="admin.js"></script>

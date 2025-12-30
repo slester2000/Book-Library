@@ -1,14 +1,16 @@
+  
+  // ===== LOAD ACTIVE BOOKS TO USER PAGE ======
   async function loadBooks() {
   const res = await fetch("/books");
   const books = await res.json();
 
-  console.log("FULL BOOKS ARRAY:", books);
+
 
   const list = document.getElementById("books");
   list.innerHTML = "";
 
   books
-    .filter(b => b.is_active == 1) // <-- schema match
+    .filter(b => b.is_active == 1)
     .forEach(book => {
 
       const li = document.createElement("li");
@@ -34,7 +36,7 @@
     });
 }
 
-
+//===== CHECKOUT LOGIC USER PAGE =====
 async function checkoutBook(bookId, title) {
   const renter = prompt("Enter your name to confirm checkout:");
   if (!renter) return;
@@ -53,7 +55,7 @@ async function checkoutBook(bookId, title) {
   }
 }
 
-//helper function to get error message
+//=====HELPER FUNCTION TO CAPTURE ERROR ====
 function showMessage(text, type) {
   const el = document.getElementById("message");
   el.textContent = text;
@@ -68,57 +70,6 @@ function openAddBook() {
   clearModal();
   openModal();
 }
-
-function openEditBook(book) {
-  editingBookId = book.id;
-  document.getElementById("modal-title").textContent = "Edit Book";
-
-  document.getElementById("book-title").value = book.title;
-  document.getElementById("book-author").value = book.author || "";
-  document.getElementById("book-isbn").value = book.isbn || "";
-  document.getElementById("book-total").value = book.total_copies;
-  document.getElementById("book-active").checked = Number(book.is_active) === 1;
-
-  openModal();
-}
-
-async function saveBook() {
-  const payload = {
-    title: document.getElementById("book-title").value,
-    author: document.getElementById("book-author").value,
-    isbn: document.getElementById("book-isbn").value,
-    total_copies: document.getElementById("book-total").value,
-    is_active: document.getElementById("book-active").checked ? 1 : 0
-  };
-
-  const url = editingBookId ? `/books/${editingBookId}` : "/books";
-  const method = editingBookId ? "PUT" : "POST";
-
-  await fetch(url, {
-    method,
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-
-  closeModal();
-  loadBooks(); // admin book list
-}
-
-function openModal() {
-  document.getElementById("book-modal").classList.remove("hidden");
-}
-
-function closeModal() {
-  document.getElementById("book-modal").classList.add("hidden");
-}
-
-function clearModal() {
-  document.querySelectorAll("#book-modal input").forEach(i => {
-    if (i.type === "checkbox") i.checked = true;
-    else i.value = "";
-  });
-}
-
 
 
 loadBooks();
